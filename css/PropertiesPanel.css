@@ -1,109 +1,135 @@
-        /* Properties Panel */
-        .property-group {
-            margin-bottom: 16px;
-        }
+/* Sidebar */
+#rightSidebar {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--color-bg-sidebar); /* usa variável do tema */
+  padding: 8px;
+  box-sizing: border-box;
+}
 
-        .property-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--color-text-secondary);
-            margin-bottom: 6px;
-            display: block;
-        }
+/* Panels */
+.panel {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-        .property-input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            background: var(--color-bg);
-            color: var(--color-text);
-        }
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+}
 
-        .property-row {
-            display: flex;
-            gap: 8px;
-        }
+.panel-toggle {
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s;
+}
 
-        .property-row .property-input {
-            flex: 1;
-        }
+/* Panel Content */
+.panel-content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--color-bg); /* garante contraste correto */
+  color: var(--color-text);
+  max-height: 300px; /* ajusta conforme necessário */
+  overflow-y: auto;
+}
 
-        .color-picker-wrapper {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
+/* Scrollbar Customizada */
+.panel-content::-webkit-scrollbar {
+  width: 6px;
+}
+.panel-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar);
+  border-radius: 3px;
+}
 
-        .color-preview {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--color-border);
-            cursor: pointer;
-        }
+/* Property Fields */
+.property-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
-        .property-help-text {
-            color: var(--color-text-tertiary);
-            font-size: 10px;
-            display: block;
-            margin-top: 4px;
-        }
+.property-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
 
-        /* Layers Panel */
-        .layer-item {
-            padding: 10px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--color-bg);
-            border: 1px solid transparent;
-        }
+.property-input,
+.property-row input,
+.property-row select,
+.field-color {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
 
-        .layer-item:hover {
-            background: var(--color-bg-secondary);
-        }
+.property-row {
+  display: flex;
+  gap: 6px;
+}
 
-        .layer-item.selected {
-            background: var(--color-primary-bg);
-            border-color: var(--color-primary);
-        }
+.color-picker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-        .layer-item.hidden {
-            opacity: 0.5;
-        }
+.color-preview {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+}
 
-        .layer-icon {
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 12px;
-        }
+/* Layers */
+.layer-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
 
-        .layer-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
+.layer-item:hover {
+  background: var(--color-bg-secondary);
+}
 
-        .layer-name {
-            flex: 1;
-            font-size: 13px;
-            color: var(--color-text);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+.layer-item.selected {
+  background: var(--color-primary-bg);
+  border: 1px solid var(--color-primary);
+}
 
-        .layer-controls {
-            display: flex;
-            gap: 4px;
-        }
+.layer-name {
+  flex: 1;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.panel-collapsed .panel-toggle {
+  transform: rotate(-90deg);
+}

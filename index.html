@@ -44,11 +44,11 @@
                     <!-- Pages will be dynamically populated -->
                 </select>
                 <button class="btn" id="newPageBtn"><i class='bx bx-plus' ></i> new</button>
-                <button class="btn" id="exportJsonBtn"><i class='bx bx-export' ></i>Exportar</button>
-                <button class="btn" id="importJsonBtn"><i class='bx bx-import' ></i>Importar</button>
+                <button class="btn" id="exportJsonBtn"><i class='bx bx-export' ></i></button>
+                <button class="btn" id="importJsonBtn"><i class='bx bx-import' ></i></button>
                 <button class="btn" id="resetZoom"><i class='bx bx-search' ></i>Reset Zoom</button>
                 <button class="btn" id="autoLayout"> Auto Layout</button>
-                <button class="btn" id="clearCanvas"><i class='bx bx-trash' ></i>Limpar Tudo</button>
+                <button class="btn" id="clearCanvas"><i class='bx bx-trash' ></i></button>
                 <!-- <button type="button" class="btn" id="clearCanvas"> -->
                 <button class="btn" id="themeToggle">
                     <span id="themeIcon"><i class='bx bx-moon' ></i></span>
@@ -56,16 +56,6 @@
             </div>
         </div>
     </header>
-
-    <!-- Floating Menu Button (Hidden, kept for compatibility) -->
-    <button class="floating-menu-btn" id="floatingMenuBtn" style="display: none;">☰</button>
-    
-    <!-- Floating Menu Dropdown (Hidden, kept for compatibility) -->
-    <div class="floating-menu" id="floatingMenu" style="display: none;">
-        <button class="floating-menu-item" id="addNodeBtn">
-            ➕ Adicionar Bloco
-        </button>
-    </div>
 
     <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
 
@@ -112,97 +102,113 @@
 
     <!-- Right Sidebar with Panels -->
     <div class="right-sidebar" id="rightSidebar">
-        <!-- Properties Panel -->
-        <div class="panel" id="propertiesPanel">
-            <div class="panel-header">
-                <span>Propriedades</span>
-                <span class="panel-toggle">▼</span>
-            </div>
-            <div class="panel-content" id="propertiesContent">
-                <div id="noSelection" style="text-align: center; color: var(--color-text-secondary); padding: 20px;">
-                    Selecione um bloco para editar suas propriedades
-                </div>
-                <div id="propertiesForm" style="display: none;">
-                    <div class="property-group">
-                        <label class="property-label">Nome</label>
-                        <input type="text" class="property-input" id="propTitle">
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Descrição</label>
-                        <textarea class="property-input" id="propDescription" rows="3"></textarea>
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Ícone da Tecnologia</label>
-                        <input type="text" class="property-input" id="propIcon" placeholder="https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white">
-                        <small class="property-help-text">
-                            Cole URL de badge shields.io ou qualquer URL de imagem
-                        </small>
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Tipo</label>
-                        <select class="property-input" id="propType">
-                            <option value="service">Service</option>
-                            <option value="module">Module</option>
-                            <option value="endpoint">Endpoint</option>
-                            <option value="middleware">Middleware</option>
-                            <option value="repository">Repository</option>
-                            <option value="database">Database</option>
-                            <option value="external">External</option>
-                            <option value="layer">Layer</option>
-                        </select>
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Formato</label>
-                        <select class="property-input" id="propShape">
-                            <option value="rectangle">Retângulo</option>
-                            <option value="circle">Círculo</option>
-                            <option value="triangle">Triângulo</option>
-                            <option value="diamond">Losango</option>
-                        </select>
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Cor</label>
-                        <div class="color-picker-wrapper">
-                            <div class="color-preview" id="propColorPreview"></div>
-                            <input type="color" class="property-input" id="propColor" style="flex: 1;">
-                        </div>
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Posição</label>
-                        <div class="property-row">
-                            <input type="number" class="property-input" id="propX" placeholder="X">
-                            <input type="number" class="property-input" id="propY" placeholder="Y">
-                        </div>
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Tamanho</label>
-                        <div class="property-row">
-                            <input type="number" class="property-input" id="propWidth" placeholder="Largura">
-                            <input type="number" class="property-input" id="propHeight" placeholder="Altura">
-                        </div>
-                    </div>
-                    <div class="property-group">
-                        <label class="property-label">Estado</label>
-                        <select class="property-input" id="propLocked">
-                            <option value="false">Escrita</option>
-                            <option value="true">Somente Leitura</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+
+      <!-- Properties Panel -->
+      <div class="panel" id="propertiesPanel">
+        <div class="panel-header">
+          <span>Propriedades</span>
+          <span class="panel-toggle">▼</span>
         </div>
 
-        <!-- Layers Panel -->
-        <div class="panel" id="layersPanel">
-            <div class="panel-header">
-                <span>Camadas</span>
-                <span class="panel-toggle">▼</span>
+        <div class="panel-content" id="propertiesContent">
+
+          <div id="noSelection" class="panel-empty">
+            Selecione um bloco para editar suas propriedades
+          </div>
+
+          <div id="propertiesForm" style="display: none;">
+
+            <div class="property-group">
+              <label class="property-label" for="propTitle">Nome</label>
+              <input type="text" class="property-input" id="propTitle">
             </div>
-            <div class="panel-content" id="layersContent">
-                <!-- Layers will be dynamically populated -->
+
+            <div class="property-group">
+              <label class="property-label" for="propDescription">Descrição</label>
+              <textarea class="property-input" id="propDescription" rows="3"></textarea>
             </div>
+
+            <div class="property-group">
+              <label class="property-label" for="propIcon">Ícone da Tecnologia</label>
+              <input type="text" class="property-input" id="propIcon" placeholder="URL da imagem">
+              <small class="property-help-text">
+                Cole URL de badge shields.io ou qualquer URL de imagem
+              </small>
+            </div>
+
+            <div class="property-group">
+              <label class="property-label" for="propType">Tipo</label>
+              <select class="property-input" id="propType">
+                <option value="service">Service</option>
+                <option value="module">Module</option>
+                <option value="endpoint">Endpoint</option>
+                <option value="middleware">Middleware</option>
+                <option value="repository">Repository</option>
+                <option value="database">Database</option>
+                <option value="external">External</option>
+                <option value="layer">Layer</option>
+              </select>
+            </div>
+
+            <div class="property-group">
+              <label class="property-label" for="propShape">Formato</label>
+              <select class="property-input" id="propShape">
+                <option value="rectangle">Retângulo</option>
+                <option value="circle">Círculo</option>
+                <option value="triangle">Triângulo</option>
+                <option value="diamond">Losango</option>
+              </select>
+            </div>
+
+            <div class="property-group">
+              <label class="property-label" for="propColor">Cor</label>
+              <div class="color-picker-wrapper">
+                <div class="color-preview" id="propColorPreview"></div>
+                <input type="color" class="property-input" id="propColor">
+              </div>
+            </div>
+
+            <div class="property-group">
+              <label class="property-label">Posição</label>
+              <div class="property-row">
+                <input type="number" class="property-input" id="propX" placeholder="X">
+                <input type="number" class="property-input" id="propY" placeholder="Y">
+              </div>
+            </div>
+
+            <div class="property-group">
+              <label class="property-label">Tamanho</label>
+              <div class="property-row">
+                <input type="number" class="property-input" id="propWidth" placeholder="Largura">
+                <input type="number" class="property-input" id="propHeight" placeholder="Altura">
+              </div>
+            </div>
+
+            <div class="property-group">
+              <label class="property-label" for="propLocked">Estado</label>
+              <select class="property-input" id="propLocked">
+                <option value="false">Escrita</option>
+                <option value="true">Somente Leitura</option>
+              </select>
+            </div>
+
+          </div>
         </div>
+      </div>
+
+      <!-- Layers Panel -->
+      <div class="panel" id="layersPanel">
+        <div class="panel-header">
+          <span>Camadas</span>
+          <span class="panel-toggle">▼</span>
+        </div>
+        <div class="panel-content" id="layersContent">
+          <!-- Layers serão populadas dinamicamente -->
+        </div>
+      </div>
+
     </div>
+
 
 
             <!-- Edit Modal -->
