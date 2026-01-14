@@ -1,0 +1,250 @@
+        /* Main Content */
+        main {
+            padding: 48px 0;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--color-text-secondary);
+            max-width: 640px;
+            margin: 0 auto 32px;
+        }
+
+        .user-tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 48px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .user-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            color: var(--color-text-secondary);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--color-text);
+        }
+
+        .tab.active {
+            color: var(--color-text);
+            border-bottom-color: var(--color-text);
+        }
+
+        .journey-content {
+            display: none;
+        }
+
+        .journey-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .phase {
+            margin-bottom: 48px;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .phase-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent-green), var(--color-accent-blue));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .phase-title {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .step {
+            background-color: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .step:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-text-tertiary);
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-description {
+            color: var(--color-text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .step-list {
+            list-style: none;
+            margin-left: 32px;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .step-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .feature-card {
+            background-color: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .feature-card h4 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: var(--color-primary-bg);
+            color: var(--color-primary);
+            margin-right: 6px;
+        }
+
+        .badge.green {
+            background-color: #d1fae5;
+            color: var(--color-accent-green);
+        }
+
+        .badge.blue {
+            background-color: #dbeafe;
+            color: var(--color-accent-blue);
+        }
+
+        .badge.purple {
+            background-color: #ede9fe;
+            color: var(--color-accent-purple);
+        }
+
+        .badge.orange {
+            background-color: #fef3c7;
+            color: var(--color-accent-orange);
+        }
+
+        body.dark-mode .badge {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        body.dark-mode .badge.green {
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+
+        body.dark-mode .badge.blue {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        body.dark-mode .badge.purple {
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        body.dark-mode .badge.orange {
+            background-color: rgba(245, 158, 11, 0.1);
+        }

@@ -1,0 +1,75 @@
+        .view-toggle {
+            display: none; /* Hide the old toolbar */
+        }
+
+        .view-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--color-border);
+            background: var(--color-bg);
+            color: var(--color-text-secondary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .view-btn.active {
+            background: var(--color-text);
+            color: var(--color-bg);
+            border-color: var(--color-text);
+        }
+
+        .view-btn:hover:not(.active) {
+            border-color: var(--color-text-tertiary);
+        }
+
+        /* Full page canvas container */
+        .canvas-container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 320px; /* Account for right sidebar */
+            bottom: 0;
+            background: var(--color-bg);
+            display: block;
+        }
+
+        .canvas-container.active {
+            display: block;
+        }
+
+        .canvas-header {
+            display: none; /* Hide the old header inside canvas */
+        }
+
+        .canvas-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .canvas-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .canvas-controls select {
+            padding: 8px 12px;
+        }
+
+        #journeyCanvas {
+            width: 100%;
+            height: 100%;
+            background: var(--color-bg);
+            cursor: grab;
+            display: block;
+        }
+
+        #journeyCanvas:active {
+            cursor: grabbing;
+        }
+
+        body.dark-mode #journeyCanvas {
+            background: var(--color-bg-secondary);
+        }

@@ -1,0 +1,82 @@
+/* Header */
+        header {
+            border-bottom: 1px solid var(--color-border);
+            background-color: var(--color-bg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        body.dark-mode header {
+            background-color: rgba(10, 10, 10, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            padding: 0 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--color-text);
+        }
+
+        .logo-icon {
+            width: 65px;
+            height: 65px;
+            /*background: linear-gradient(135deg, var(--color-accent-green), var(--color-accent-blue));*/
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background-color: var(--color-bg-secondary);
+            border-color: var(--color-text-tertiary);
+        }
+
+        .btn-primary {
+            background-color: var(--color-text);
+            color: var(--color-bg);
+            border-color: var(--color-text);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-text-secondary);
+            border-color: var(--color-text-secondary);
+        }

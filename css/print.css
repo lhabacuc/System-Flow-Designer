@@ -1,0 +1,22 @@
+       /* Print Styles */
+        @media print {
+            header {
+                position: static;
+            }
+
+            .header-actions {
+                display: none;
+            }
+
+            .user-tabs {
+                display: none;
+            }
+
+            .journey-content {
+                display: block !important;
+            }
+
+            .step:hover {
+                box-shadow: none;
+            }
+        }
