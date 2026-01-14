@@ -64,41 +64,60 @@
         <canvas id="journeyCanvas"></canvas>
     </div>
 
-    <!-- Figma-like Floating Toolbar -->
-    <div class="floating-toolbar" id="floatingToolbar">
-        <div class="toolbar-item" data-type="service" data-shape="rectangle" draggable="true">
-            <div class="toolbar-icon" style="background: #f59e0b;">S</div>
-            <div class="toolbar-label">Service</div>
+    <!-- Inclua o FontAwesome (CDN) no <head> do seu HTML -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<!-- Figma-like Floating Toolbar -->
+<div class="floating-toolbar" id="floatingToolbar">
+    <div class="toolbar-item" data-type="service" data-shape="rectangle" draggable="true">
+        <div class="toolbar-icon" style="background: #f59e0b;">
+            <i class="fas fa-cogs"></i> <!-- Ícone real de serviço -->
         </div>
-        <div class="toolbar-item" data-type="module" data-shape="rectangle" draggable="true">
-            <div class="toolbar-icon" style="background: #10b981;">M</div>
-            <div class="toolbar-label">Module</div>
-        </div>
-        <div class="toolbar-item" data-type="endpoint" data-shape="rectangle" draggable="true">
-            <div class="toolbar-icon" style="background: #3b82f6;">E</div>
-            <div class="toolbar-label">Endpoint</div>
-        </div>
-        <div class="toolbar-item" data-type="middleware" data-shape="rectangle" draggable="true">
-            <div class="toolbar-icon" style="background: #8b5cf6;">MW</div>
-            <div class="toolbar-label">Middleware</div>
-        </div>
-        <div class="toolbar-item" data-type="repository" data-shape="rectangle" draggable="true">
-            <div class="toolbar-icon" style="background: #ef4444;">R</div>
-            <div class="toolbar-label">Repository</div>
-        </div>
-        <div class="toolbar-item" data-type="database" data-shape="circle" draggable="true">
-            <div class="toolbar-icon" style="background: #06b6d4;">DB</div>
-            <div class="toolbar-label">Database</div>
-        </div>
-        <div class="toolbar-item" data-type="external" data-shape="diamond" draggable="true">
-            <div class="toolbar-icon" style="background: #ec4899;">EX</div>
-            <div class="toolbar-label">External</div>
-        </div>
-        <div class="toolbar-item" data-type="layer" data-shape="rectangle" draggable="true">
-            <div class="toolbar-icon" style="background: #3b82f6;">L</div>
-            <div class="toolbar-label">Layer</div>
-        </div>
+        <div class="toolbar-label">Service</div>
     </div>
+    <div class="toolbar-item" data-type="module" data-shape="rectangle" draggable="true">
+        <div class="toolbar-icon" style="background: #10b981;">
+            <i class="fas fa-puzzle-piece"></i> <!-- Ícone real de módulo -->
+        </div>
+        <div class="toolbar-label">Module</div>
+    </div>
+    <div class="toolbar-item" data-type="endpoint" data-shape="rectangle" draggable="true">
+        <div class="toolbar-icon" style="background: #3b82f6;">
+            <i class="fas fa-network-wired"></i> <!-- Ícone real de endpoint -->
+        </div>
+        <div class="toolbar-label">Endpoint</div>
+    </div>
+    <div class="toolbar-item" data-type="middleware" data-shape="rectangle" draggable="true">
+        <div class="toolbar-icon" style="background: #8b5cf6;">
+            <i class="fas fa-exchange-alt"></i> <!-- Ícone real de middleware -->
+        </div>
+        <div class="toolbar-label">Middleware</div>
+    </div>
+    <div class="toolbar-item" data-type="repository" data-shape="rectangle" draggable="true">
+        <div class="toolbar-icon" style="background: #ef4444;">
+            <i class="fas fa-database"></i> <!-- Ícone real de repositório -->
+        </div>
+        <div class="toolbar-label">Repository</div>
+    </div>
+    <div class="toolbar-item" data-type="database" data-shape="circle" draggable="true">
+        <div class="toolbar-icon" style="background: #06b6d4;">
+            <i class="fas fa-server"></i> <!-- Ícone real de database -->
+        </div>
+        <div class="toolbar-label">Database</div>
+    </div>
+    <div class="toolbar-item" data-type="external" data-shape="diamond" draggable="true">
+        <div class="toolbar-icon" style="background: #ec4899;">
+            <i class="fas fa-cloud"></i> <!-- Ícone real de externo -->
+        </div>
+        <div class="toolbar-label">External</div>
+    </div>
+    <div class="toolbar-item" data-type="layer" data-shape="rectangle" draggable="true">
+        <div class="toolbar-icon" style="background: #3b82f6;">
+            <i class="fas fa-layer-group"></i> <!-- Ícone real de layer -->
+        </div>
+        <div class="toolbar-label">Layer</div>
+    </div>
+</div>
 
     <!-- Right Sidebar with Panels -->
     <div class="right-sidebar" id="rightSidebar">
@@ -337,5 +356,6 @@
     </footer>
 
     <script src="scripts/main.js" defer></script>
+    
 </body>
 </html>
