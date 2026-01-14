@@ -203,7 +203,7 @@ class InteractiveFlowchart {
 
     // LocalStorage Persistence
     loadFromLocalStorage() {
-        const saved = localStorage.getItem('agriconnect_editor_data');
+        const saved = localStorage.getItem('System_Flow_Designer_editor_data');
         if (saved) {
             try {
                 const data = JSON.parse(saved);
@@ -259,7 +259,7 @@ class InteractiveFlowchart {
             currentPageId: this.currentPageId
         };
         
-        localStorage.setItem('agriconnect_editor_data', JSON.stringify(data));
+        localStorage.setItem('System_Flow_Designer_editor_data', JSON.stringify(data));
     }
     
     // Page Management
