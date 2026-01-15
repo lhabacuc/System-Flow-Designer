@@ -764,9 +764,7 @@ class InteractiveFlowchart {
             if (e.key === 'Delete' || e.key === 'Backspace') {
                 if (this.selectedNode && !e.target.closest('.modal, input, textarea')) {
                     e.preventDefault();
-                    if (confirm('Tem certeza que deseja remover este bloco?')) {
-                        this.removeNode(this.selectedNode.id);
-                    }
+                    this.removeNode(this.selectedNode.id);
                 } else if (this.selectedConnection) {
                     e.preventDefault();
                     this.deleteConnection(this.selectedConnection);
@@ -1033,9 +1031,7 @@ ${target.node?.locked ? 'Desbloquear' : 'Somente Leitura'}
                 }
                 break;
             case 'delete':
-                if (target.node && confirm('Tem certeza que deseja remover este bloco?')) {
-                    this.removeNode(target.node.id);
-                }
+                this.removeNode(target.node.id);
                 break;
             case 'deleteConnection':
                 if (target.connection) {
@@ -1835,11 +1831,9 @@ ${target.node?.locked ? 'Desbloquear' : 'Somente Leitura'}
         };
         
         const deleteNode = () => {
-            if (confirm('Tem certeza que deseja remover este bloco?')) {
-                this.removeNode(node.id);
-                modal.classList.remove('active');
-                cleanup();
-            }
+            this.removeNode(node.id);
+            modal.classList.remove('active');
+            cleanup();
         };
         
         const cancel = () => {
@@ -2149,9 +2143,35 @@ document.getElementById('autoLayout')?.addEventListener('click', () => {
 });
 
 // Clear canvas button
-document.getElementById('clearCanvas')?.addEventListener('click', () => {
+// document.getElementById('clearCanvas')?.addEventListener('click', () => {
+//     const instance = FlowchartManager.getInstance();
+//     if (instance && confirm('Tem certeza que deseja limpar todo o canvas?')) {
+//         instance.clearAll();
+//     }
+// });
+
+const clearBtn = document.getElementById('clearCanvas');
+const confirmModal = document.getElementById('confirmModal');
+const cancelBtn = document.getElementById('cancelConfirm');
+const yesBtn = document.getElementById('confirmYes');
+
+clearBtn.addEventListener('click', () => {
+    confirmModal.style.display = 'flex'; // abre o modal
+});
+
+cancelBtn.addEventListener('click', () => {
+    confirmModal.style.display = 'none'; // fecha
+});
+
+yesBtn.addEventListener('click', () => {
     const instance = FlowchartManager.getInstance();
-    if (instance && confirm('Tem certeza que deseja limpar todo o canvas?')) {
-        instance.clearAll();
+    if (instance) instance.clearAll();
+    confirmModal.style.display = 'none'; // fecha
+});
+
+// Fecha modal ao clicar fora da caixa
+confirmModal.addEventListener('click', (e) => {
+    if (e.target === confirmModal) {
+        confirmModal.style.display = 'none';
     }
 });

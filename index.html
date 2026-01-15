@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/PropertiesPanel.css">
     <link rel="stylesheet" href="css/SelectionRectangle.css">
     <link rel="stylesheet" href="css/CanvasFlowchartStyles.css">
+    <link rel="stylesheet" href="css/popupConfirm.css">
 
     <!-- Estados / overrides -->
     <link rel="stylesheet" href="css/Hide_hero_and_main_sections.css">
@@ -345,6 +346,21 @@
         </div>
     </main>
 
+
+<!-- Modal de confirmação SFD -->
+<div id="confirmModal" class="sfd-modal-overlay">
+  <div class="sfd-modal-box">
+    <p>Esta ação removerá todos os blocos e conexões do canvas.</p>
+    <div class="sfd-modal-actions">
+      <button class="btn btn-secondary" id="cancelConfirm">Cancelar</button>
+      <button class="btn btn-danger" id="confirmYes">Sim, limpar</button>
+    </div>
+  </div>
+</div>
+
+
+
+
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -356,6 +372,6 @@
     </footer>
 
     <script src="scripts/main.js" defer></script>
-    
+
 </body>
 </html>
