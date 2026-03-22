@@ -70,70 +70,61 @@
 
     <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
 
-    <main class="landing-page">
+    <main class="landing-page" id="interactiveLanding">
+        <div class="landing-dot-grid" aria-hidden="true"></div>
+        <div class="landing-ribbon landing-ribbon-left" aria-hidden="true"></div>
+        <div class="landing-ribbon landing-ribbon-right" aria-hidden="true"></div>
+        <div class="landing-mouse-glow" aria-hidden="true"></div>
+        <div class="landing-particle-layer" id="landingParticleLayer" aria-hidden="true"></div>
+
         <section class="landing-hero container">
+
             <div class="hero-grid">
-                <div class="hero-copy">
-                    <span class="eyebrow">Arquitetura. Fluxos. Decisao visual.</span>
-                    <h1>Apresente o seu sistema com a mesma clareza com que ele deve operar.</h1>
+                <div class="hero-copy hero-copy-centered">
+                    <span class="eyebrow">System Flow Designer</span>
+                    <h1>Desenha a arquitetura do sistema com velocidade, foco e clareza visual.</h1>
                     <p class="subtitle">
-                        O System Flow Designer organiza servicos, modulos, endpoints, repositorios e integracoes externas num canvas unico, pronto para analise tecnica, alinhamento de equipa e documentacao viva.
+                        Transforma servicos, modulos, endpoints e bases de dados num mapa tecnico elegante para apresentacao, alinhamento e desenho operacional.
                     </p>
-                    <div class="hero-actions">
-                        <button class="btn btn-primary btn-large" id="heroLaunchBtn" type="button">Entrar no editor</button>
-                        <a class="btn btn-large" href="#capabilities">Explorar plataforma</a>
+
+                    <div class="hero-panel hero-panel-centered">
+                        <div class="hero-panel-card glass-card prompt-card">
+                            <div class="prompt-head">
+                                <span>Que sistema vamos estruturar hoje?</span>
+                            </div>
+                            <div class="prompt-body">
+                                <div class="prompt-suggestions">
+                                    <span>Arquitetura web</span>
+                                    <span>Microservicos</span>
+                                    <span>Fluxo de modulos</span>
+                                </div>
+                            </div>
+                            <div class="prompt-footer">
+                                <div class="prompt-modes">
+                                    <span class="prompt-chip active">Editor</span>
+                                    <span class="prompt-chip">Canvas</span>
+                                    <span class="prompt-chip">JSON</span>
+                                </div>
+                                <div class="prompt-actions">
+                                    <a class="btn btn-ghost" href="#capabilities">Ver recursos</a>
+                                    <button class="btn btn-primary btn-large" id="heroLaunchBtn" type="button">Abrir sistema</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="hero-metrics">
                         <div>
                             <strong>Canvas interativo</strong>
-                            <span>Modelacao visual com drag and drop</span>
+                            <span>Diagramacao com drag and drop</span>
                         </div>
                         <div>
                             <strong>Multi-page</strong>
-                            <span>Separe contextos, dominios e ambientes</span>
+                            <span>Vistas por dominio e contexto</span>
                         </div>
                         <div>
                             <strong>Exportacao JSON</strong>
-                            <span>Persistencia simples e portavel</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="hero-panel">
-                    <div class="hero-panel-card glass-card">
-                        <div class="panel-chip-row">
-                            <span class="chip chip-green">System Blueprint</span>
-                            <span class="chip">Operational View</span>
-                        </div>
-                        <div class="blueprint-stage">
-                            <div class="blueprint-column">
-                                <span class="column-title">Entrada</span>
-                                <div class="blueprint-node accent-blue">Gateway API</div>
-                                <div class="blueprint-node">Auth Middleware</div>
-                            </div>
-                            <div class="blueprint-links"></div>
-                            <div class="blueprint-column">
-                                <span class="column-title">Core</span>
-                                <div class="blueprint-node accent-green">User Service</div>
-                                <div class="blueprint-node">Order Module</div>
-                                <div class="blueprint-node accent-amber">Queue Worker</div>
-                            </div>
-                            <div class="blueprint-links"></div>
-                            <div class="blueprint-column">
-                                <span class="column-title">Dados</span>
-                                <div class="blueprint-node accent-red">Postgres</div>
-                                <div class="blueprint-node accent-pink">External Billing</div>
-                            </div>
-                        </div>
-                        <div class="hero-panel-footer">
-                            <div>
-                                <span class="panel-label">Visibilidade</span>
-                                <strong>Componentes, conexoes e camadas</strong>
-                            </div>
-                            <div>
-                                <span class="panel-label">Operacao</span>
-                                <strong>Edicao, layout e revisao rapida</strong>
-                            </div>
+                            <span>Persistencia e partilha simples</span>
                         </div>
                     </div>
                 </div>

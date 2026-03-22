@@ -8,6 +8,8 @@ const launchButtons = [
     document.getElementById('ctaLaunchBtn')
 ].filter(Boolean);
 const backToLandingBtn = document.getElementById('backToLandingBtn');
+const interactiveLanding = document.getElementById('interactiveLanding');
+const landingParticleLayer = document.getElementById('landingParticleLayer');
 const body = document.body;
 
 function syncThemeButtons(isDark) {
@@ -67,6 +69,37 @@ launchButtons.forEach((button) => {
 });
 
 backToLandingBtn?.addEventListener('click', returnToLanding);
+
+if (interactiveLanding && landingParticleLayer) {
+    let lastSparkTime = 0;
+
+    interactiveLanding.addEventListener('mousemove', (event) => {
+        const rect = interactiveLanding.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        interactiveLanding.style.setProperty('--mouse-x', `${x}px`);
+        interactiveLanding.style.setProperty('--mouse-y', `${y}px`);
+
+        const now = Date.now();
+        if (now - lastSparkTime < 22) {
+            return;
+        }
+        lastSparkTime = now;
+
+        const spark = document.createElement('span');
+        spark.className = 'landing-spark';
+        spark.style.left = `${x}px`;
+        spark.style.top = `${y}px`;
+        spark.style.setProperty('--spark-x', `${(Math.random() - 0.5) * 36}px`);
+        spark.style.setProperty('--spark-y', `${-10 - Math.random() * 28}px`);
+        landingParticleLayer.appendChild(spark);
+
+        window.setTimeout(() => {
+            spark.remove();
+        }, 900);
+    });
+}
 
 
 // Helper function to close floating menu

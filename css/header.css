@@ -9,6 +9,11 @@ header {
     background: rgba(245, 247, 250, 0.72);
 }
 
+body:not(.app-active) header {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+    background: rgba(2, 4, 8, 0.54);
+}
+
 body.dark-mode header {
     background: rgba(7, 17, 29, 0.72);
 }
@@ -88,6 +93,17 @@ body.app-active .app-actions {
     justify-content: center;
     gap: 8px;
     text-decoration: none;
+}
+
+body:not(.app-active) .logo-copy span,
+body:not(.app-active) .logo-copy small {
+    color: #f5f8ff;
+}
+
+body:not(.app-active) .btn {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #f5f8ff;
 }
 
 body.dark-mode .btn {
