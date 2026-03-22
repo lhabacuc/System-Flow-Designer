@@ -1,79 +1,83 @@
-        .view-toggle {
-            display: none; /* Hide the old toolbar */
-        }
+.view-toggle {
+    display: none;
+}
 
-        .view-btn {
-            padding: 10px 20px;
-            border: 1px solid var(--color-border);
-            background: var(--color-bg);
-            color: var(--color-text-secondary);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
+.view-btn {
+    padding: 10px 20px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
 
-        .view-btn.active {
-            background: var(--color-text);
-            color: var(--color-bg);
-            border-color: var(--color-text);
-        }
+.view-btn.active {
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+}
 
-        .view-btn:hover:not(.active) {
-            border-color: var(--color-text-tertiary);
-        }
+.view-btn:hover:not(.active) {
+    border-color: var(--color-text-tertiary);
+}
 
-        /* Full page canvas container */
-        .canvas-container {
-            position: fixed;
-            top: 0;       /* ou top: 60px se quiser manter header */
-            left: 0;
-            right: 0;     /* remove a limitação da sidebar */
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--color-bg);
-            display: block;
-        }
+.canvas-container {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100vh - 72px);
+    background: var(--color-bg);
+    display: block;
+}
 
-        .canvas-container.active {
-            display: block;
-        }
+.canvas-container.active {
+    display: block;
+}
 
-        .canvas-header {
-            display: none; /* Hide the old header inside canvas */
-        }
+.canvas-header {
+    display: none;
+}
 
-        .canvas-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
+.canvas-title {
+    font-size: 20px;
+    font-weight: 600;
+}
 
-        .canvas-controls {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+.canvas-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
 
-        .canvas-controls select {
-            padding: 8px 12px;
-        }
+.canvas-controls select {
+    padding: 8px 12px;
+}
 
-        #journeyCanvas {
-            width: 100%;
-            height: 100%;
-            background: var(--color-bg);
-            cursor: grab;
-            display: block;
-        }
+#journeyCanvas {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    cursor: grab;
+    display: block;
+}
 
-        #journeyCanvas:active {
-            cursor: grabbing;
-        }
+#journeyCanvas:active {
+    cursor: grabbing;
+}
 
-        body.dark-mode #journeyCanvas {
-            background: var(--color-bg-secondary);
-        }
+body.dark-mode #journeyCanvas {
+    background: var(--color-bg-secondary);
+}
 
-        
+@media (max-width: 980px) {
+    .canvas-container {
+        top: 118px;
+        height: calc(100vh - 118px);
+    }
+}

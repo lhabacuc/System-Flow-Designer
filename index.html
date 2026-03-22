@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="System Flow Designer: plataforma visual para mapear arquitetura, fluxos, módulos e dependências de sistemas com clareza operacional.">
     <link rel="icon" href="img/icone.svg" type="image/svg+xml">
     <title>System Flow Designer - plataforma de arquitetura de sistemas</title>
-    <!-- Base -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="css/root_ex.css">
     <link rel="stylesheet" href="css/main.css">
-
-    <!-- Layout -->
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
-
-    <!-- Componentes -->
+    <link rel="stylesheet" href="css/landing.css">
     <link rel="stylesheet" href="css/ContextMenu.css">
     <link rel="stylesheet" href="css/FloatingMenuButton.css">
     <link rel="stylesheet" href="css/FloatingMenuDropdown.css">
@@ -22,37 +24,45 @@
     <link rel="stylesheet" href="css/SelectionRectangle.css">
     <link rel="stylesheet" href="css/CanvasFlowchartStyles.css">
     <link rel="stylesheet" href="css/popupConfirm.css">
-
-    <!-- Estados / overrides -->
     <link rel="stylesheet" href="css/Hide_hero_and_main_sections.css">
-
-    <!-- Especiais -->
     <link rel="stylesheet" href="css/print.css" media="print">
 
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
         <div class="header-content">
             <div class="logo">
                 <img class="logo-icon" src="img/icone.svg" alt="SF">
-                <span>System Flow Designer</span>
+                <div class="logo-copy">
+                    <span>System Flow Designer</span>
+                    <small>Arquitetura visual para sistemas modernos</small>
+                </div>
             </div>
 
-            <div class="header-actions">
-                <select class="btn" id="pageSelector">
-                    <!-- Pages will be dynamically populated -->
-                </select>
-                <button class="btn" id="newPageBtn"><i class='bx bx-plus' ></i> new</button>
-                <button class="btn" id="exportJsonBtn"><i class='bx bx-export' ></i></button>
-                <button class="btn" id="importJsonBtn"><i class='bx bx-import' ></i></button>
-                <button class="btn" id="resetZoom"><i class='bx bx-search' ></i>Reset Zoom</button>
-                <button class="btn" id="autoLayout"> Auto Layout</button>
-                <button class="btn" id="clearCanvas"><i class='bx bx-trash' ></i></button>
-                <!-- <button type="button" class="btn" id="clearCanvas"> -->
-                <button class="btn" id="themeToggle">
-                    <span id="themeIcon"><i class='bx bx-moon' ></i></span>
+            <div class="header-actions landing-actions">
+                <a class="btn btn-link" href="#capabilities">Capacidades</a>
+                <a class="btn btn-link" href="#workflow">Fluxo</a>
+                <button class="btn" id="themeToggle" type="button">
+                    <span id="themeIcon"><i class='bx bx-moon'></i></span>
+                </button>
+                <button class="btn btn-primary" id="launchSystemBtn" type="button">Abrir sistema</button>
+            </div>
+
+            <div class="header-actions app-actions">
+                <button class="btn" id="backToLandingBtn" type="button"><i class='bx bx-left-arrow-alt'></i> Apresentacao</button>
+                <select class="btn" id="pageSelector"></select>
+                <button class="btn" id="newPageBtn" type="button"><i class='bx bx-plus'></i> New</button>
+                <button class="btn" id="exportJsonBtn" type="button"><i class='bx bx-export'></i></button>
+                <button class="btn" id="importJsonBtn" type="button"><i class='bx bx-import'></i></button>
+                <button class="btn" id="resetZoom" type="button"><i class='bx bx-search'></i> Reset Zoom</button>
+                <button class="btn" id="autoLayout" type="button">Auto Layout</button>
+                <button class="btn" id="clearCanvas" type="button"><i class='bx bx-trash'></i></button>
+                <button class="btn" id="themeToggleApp" type="button">
+                    <span><i class='bx bx-transfer-alt' style="display:none"></i></span>
+                    Tema
                 </button>
             </div>
         </div>
@@ -60,318 +70,420 @@
 
     <input type="file" id="jsonFileInput" accept=".json" style="display: none;">
 
-    <!-- Canvas Container -->
-    <div class="canvas-container active" id="flowchartView">
-        <canvas id="journeyCanvas"></canvas>
-    </div>
-
-    <!-- Inclua o FontAwesome (CDN) no <head> do seu HTML -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-<!-- Figma-like Floating Toolbar -->
-<div class="floating-toolbar" id="floatingToolbar">
-    <div class="toolbar-item" data-type="service" data-shape="rectangle" draggable="true">
-        <div class="toolbar-icon" style="background: #f59e0b;">
-            <i class="fas fa-cogs"></i> <!-- Ícone real de serviço -->
-        </div>
-        <div class="toolbar-label">Service</div>
-    </div>
-    <div class="toolbar-item" data-type="module" data-shape="rectangle" draggable="true">
-        <div class="toolbar-icon" style="background: #10b981;">
-            <i class="fas fa-puzzle-piece"></i> <!-- Ícone real de módulo -->
-        </div>
-        <div class="toolbar-label">Module</div>
-    </div>
-    <div class="toolbar-item" data-type="endpoint" data-shape="rectangle" draggable="true">
-        <div class="toolbar-icon" style="background: #3b82f6;">
-            <i class="fas fa-network-wired"></i> <!-- Ícone real de endpoint -->
-        </div>
-        <div class="toolbar-label">Endpoint</div>
-    </div>
-    <div class="toolbar-item" data-type="middleware" data-shape="rectangle" draggable="true">
-        <div class="toolbar-icon" style="background: #8b5cf6;">
-            <i class="fas fa-exchange-alt"></i> <!-- Ícone real de middleware -->
-        </div>
-        <div class="toolbar-label">Middleware</div>
-    </div>
-    <div class="toolbar-item" data-type="repository" data-shape="rectangle" draggable="true">
-        <div class="toolbar-icon" style="background: #ef4444;">
-            <i class="fas fa-database"></i> <!-- Ícone real de repositório -->
-        </div>
-        <div class="toolbar-label">Repository</div>
-    </div>
-    <div class="toolbar-item" data-type="database" data-shape="circle" draggable="true">
-        <div class="toolbar-icon" style="background: #06b6d4;">
-            <i class="fas fa-server"></i> <!-- Ícone real de database -->
-        </div>
-        <div class="toolbar-label">Database</div>
-    </div>
-    <div class="toolbar-item" data-type="external" data-shape="diamond" draggable="true">
-        <div class="toolbar-icon" style="background: #ec4899;">
-            <i class="fas fa-cloud"></i> <!-- Ícone real de externo -->
-        </div>
-        <div class="toolbar-label">External</div>
-    </div>
-    <div class="toolbar-item" data-type="layer" data-shape="rectangle" draggable="true">
-        <div class="toolbar-icon" style="background: #3b82f6;">
-            <i class="fas fa-layer-group"></i> <!-- Ícone real de layer -->
-        </div>
-        <div class="toolbar-label">Layer</div>
-    </div>
-</div>
-
-    <!-- Right Sidebar with Panels -->
-    <div class="right-sidebar" id="rightSidebar">
-
-      <!-- Properties Panel -->
-      <div class="panel" id="propertiesPanel">
-        <div class="panel-header">
-          <span>Propriedades</span>
-          <span class="panel-toggle">▼</span>
-        </div>
-
-        <div class="panel-content" id="propertiesContent">
-
-          <div id="noSelection" class="panel-empty">
-            Selecione um bloco para editar suas propriedades
-          </div>
-
-          <div id="propertiesForm" style="display: none;">
-
-            <div class="property-group">
-              <label class="property-label" for="propTitle">Nome</label>
-              <input type="text" class="property-input" id="propTitle">
-            </div>
-
-            <div class="property-group">
-              <label class="property-label" for="propDescription">Descrição</label>
-              <textarea class="property-input" id="propDescription" rows="3"></textarea>
-            </div>
-
-            <div class="property-group">
-              <label class="property-label" for="propIcon">Ícone da Tecnologia</label>
-              <input type="text" class="property-input" id="propIcon" placeholder="URL da imagem">
-              <small class="property-help-text">
-                Cole URL de badge shields.io ou qualquer URL de imagem
-              </small>
-            </div>
-
-            <div class="property-group">
-              <label class="property-label" for="propType">Tipo</label>
-              <select class="property-input" id="propType">
-                <option value="service">Service</option>
-                <option value="module">Module</option>
-                <option value="endpoint">Endpoint</option>
-                <option value="middleware">Middleware</option>
-                <option value="repository">Repository</option>
-                <option value="database">Database</option>
-                <option value="external">External</option>
-                <option value="layer">Layer</option>
-              </select>
-            </div>
-
-            <div class="property-group">
-              <label class="property-label" for="propShape">Formato</label>
-              <select class="property-input" id="propShape">
-                <option value="rectangle">Retângulo</option>
-                <option value="circle">Círculo</option>
-                <option value="triangle">Triângulo</option>
-                <option value="diamond">Losango</option>
-              </select>
-            </div>
-
-            <div class="property-group">
-              <label class="property-label" for="propColor">Cor</label>
-              <div class="color-picker-wrapper">
-                <div class="color-preview" id="propColorPreview"></div>
-                <input type="color" class="property-input" id="propColor">
-              </div>
-            </div>
-
-            <div class="property-group">
-              <label class="property-label">Posição</label>
-              <div class="property-row">
-                <input type="number" class="property-input" id="propX" placeholder="X">
-                <input type="number" class="property-input" id="propY" placeholder="Y">
-              </div>
-            </div>
-
-            <div class="property-group">
-              <label class="property-label">Tamanho</label>
-              <div class="property-row">
-                <input type="number" class="property-input" id="propWidth" placeholder="Largura">
-                <input type="number" class="property-input" id="propHeight" placeholder="Altura">
-              </div>
-            </div>
-
-            <div class="property-group">
-              <label class="property-label" for="propLocked">Estado</label>
-              <select class="property-input" id="propLocked">
-                <option value="false">Escrita</option>
-                <option value="true">Somente Leitura</option>
-              </select>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Layers Panel -->
-      <div class="panel" id="layersPanel">
-        <div class="panel-header">
-          <span>Camadas</span>
-          <span class="panel-toggle">▼</span>
-        </div>
-        <div class="panel-content" id="layersContent">
-          <!-- Layers serão populadas dinamicamente -->
-        </div>
-      </div>
-
-    </div>
-
-
-
-            <!-- Edit Modal -->
-            <div class="modal" id="editModal">
-                <div class="modal-content">
-                    <h3 class="modal-header">Editar Bloco de Arquitetura</h3>
-                    <div class="form-group">
-                        <label class="form-label">Nome do Componente</label>
-                        <input type="text" class="form-input" id="editTitle" placeholder="Ex: Auth Service, API Gateway">
+    <main class="landing-page">
+        <section class="landing-hero container">
+            <div class="hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow">Arquitetura. Fluxos. Decisao visual.</span>
+                    <h1>Apresente o seu sistema com a mesma clareza com que ele deve operar.</h1>
+                    <p class="subtitle">
+                        O System Flow Designer organiza servicos, modulos, endpoints, repositorios e integracoes externas num canvas unico, pronto para analise tecnica, alinhamento de equipa e documentacao viva.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-large" id="heroLaunchBtn" type="button">Entrar no editor</button>
+                        <a class="btn btn-large" href="#capabilities">Explorar plataforma</a>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Tipo de Componente</label>
-                        <select class="form-input" id="editNodeType">
-                            <option value="service">Serviço</option>
-                            <option value="module">Módulo</option>
-                            <option value="endpoint">Endpoint</option>
-                            <option value="middleware">Middleware</option>
-                            <option value="repository">Repository</option>
-                            <option value="database">Database</option>
-                            <option value="external">Serviço Externo</option>
-                            <option value="layer">Camada</option>
-                        </select>
+                    <div class="hero-metrics">
+                        <div>
+                            <strong>Canvas interativo</strong>
+                            <span>Modelacao visual com drag and drop</span>
+                        </div>
+                        <div>
+                            <strong>Multi-page</strong>
+                            <span>Separe contextos, dominios e ambientes</span>
+                        </div>
+                        <div>
+                            <strong>Exportacao JSON</strong>
+                            <span>Persistencia simples e portavel</span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Formato do Bloco</label>
-                        <select class="form-input" id="editNodeShape">
-                            <option value="rectangle">Retângulo</option>
-                            <option value="circle">Círculo</option>
-                            <option value="triangle">Triângulo</option>
-                            <option value="diamond">Losango</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Descrição</label>
-                        <textarea class="form-input form-textarea" id="editDescription" placeholder="Descrição detalhada do componente"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Responsabilidades (separadas por vírgula)</label>
-                        <textarea class="form-input form-textarea" id="editResponsibilities" placeholder="Ex: Auth, Validação, Logging"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Metadados (JSON)</label>
-                        <textarea class="form-input form-textarea" id="editMetadata" placeholder='{"key": "value"}'></textarea>
-                    </div>
-                    <div class="modal-actions">
-                        <button class="btn" id="deleteNode"><i class='bx bx-trash' ></i></i>Remover</button>
-                        <button class="btn" id="cancelEdit">Cancelar</button>
-                        <button class="btn btn-primary" id="saveEdit">Salvar</button>
+                </div>
+
+                <div class="hero-panel">
+                    <div class="hero-panel-card glass-card">
+                        <div class="panel-chip-row">
+                            <span class="chip chip-green">System Blueprint</span>
+                            <span class="chip">Operational View</span>
+                        </div>
+                        <div class="blueprint-stage">
+                            <div class="blueprint-column">
+                                <span class="column-title">Entrada</span>
+                                <div class="blueprint-node accent-blue">Gateway API</div>
+                                <div class="blueprint-node">Auth Middleware</div>
+                            </div>
+                            <div class="blueprint-links"></div>
+                            <div class="blueprint-column">
+                                <span class="column-title">Core</span>
+                                <div class="blueprint-node accent-green">User Service</div>
+                                <div class="blueprint-node">Order Module</div>
+                                <div class="blueprint-node accent-amber">Queue Worker</div>
+                            </div>
+                            <div class="blueprint-links"></div>
+                            <div class="blueprint-column">
+                                <span class="column-title">Dados</span>
+                                <div class="blueprint-node accent-red">Postgres</div>
+                                <div class="blueprint-node accent-pink">External Billing</div>
+                            </div>
+                        </div>
+                        <div class="hero-panel-footer">
+                            <div>
+                                <span class="panel-label">Visibilidade</span>
+                                <strong>Componentes, conexoes e camadas</strong>
+                            </div>
+                            <div>
+                                <span class="panel-label">Operacao</span>
+                                <strong>Edicao, layout e revisao rapida</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Add Node Modal -->
-            <div class="modal" id="addNodeModal">
-                <div class="modal-content">
-                    <h3 class="modal-header">Adicionar Novo Bloco de Arquitetura</h3>
-                    <div class="form-group">
-                        <label class="form-label">Nome do Componente</label>
-                        <input type="text" class="form-input" id="addNodeTitle" placeholder="Ex: User Service, Middleware Layer">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tipo de Componente</label>
-                        <select class="form-input" id="addNodeType">
-                            <option value="service">Serviço</option>
-                            <option value="module">Módulo</option>
-                            <option value="endpoint">Endpoint</option>
-                            <option value="middleware">Middleware</option>
-                            <option value="repository">Repository</option>
-                            <option value="database">Database</option>
-                            <option value="external">Serviço Externo</option>
-                            <option value="layer">Camada</option>
-                            <option value="custom">Tipo Personalizado...</option>
-                        </select>
-                    </div>
-                    <div class="form-group" id="customTypeGroup" style="display: none;">
-                        <label class="form-label">Nome do Tipo Personalizado</label>
-                        <input type="text" class="form-input" id="customTypeName" placeholder="Ex: Cache, Queue, API">
-                    </div>
-                    <div class="form-group" id="customTypeColorGroup" style="display: none;">
-                        <label class="form-label">Cor do Tipo</label>
-                        <input type="color" class="form-input" id="customTypeColor" value="#3b82f6">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Formato do Bloco</label>
-                        <select class="form-input" id="addNodeShape">
-                            <option value="rectangle">Retângulo</option>
-                            <option value="circle">Círculo</option>
-                            <option value="triangle">Triângulo</option>
-                            <option value="diamond">Losango</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Descrição</label>
-                        <textarea class="form-input form-textarea" id="addNodeDescription" placeholder="Descrição do componente e sua função"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Responsabilidades (separadas por vírgula)</label>
-                        <textarea class="form-input form-textarea" id="addNodeResponsibilities" placeholder="Ex: Autenticação, Autorização, Rate Limiting"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Metadados (JSON Opcional)</label>
-                        <textarea class="form-input form-textarea" id="addNodeMetadata" placeholder='{"tecnologia": "Node.js", "porta": 3000}'></textarea>
-                    </div>
-                    <div class="modal-actions">
-                        <button class="btn" id="cancelAddNode">Cancelar</button>
-                        <button class="btn btn-primary" id="saveAddNode">Adicionar</button>
-                    </div>
+        <section class="signal-band">
+            <div class="container signal-band-content">
+                <p>Ideal para equipas de engenharia, analistas de sistemas, arquitetos de software e squads que precisam de um mapa tecnico legivel.</p>
+                <div class="signal-pills">
+                    <span>Arquitetura funcional</span>
+                    <span>Descoberta tecnica</span>
+                    <span>Planeamento de evolucao</span>
+                    <span>Documentacao operacional</span>
                 </div>
             </div>
+        </section>
 
-            <!-- Context Menu -->
-            <div class="context-menu" id="contextMenu">
-                <!-- Dynamic content will be inserted here -->
+        <section class="container capabilities-section" id="capabilities">
+            <div class="section-heading">
+                <span class="eyebrow">Capacidades principais</span>
+                <h2>Uma camada de apresentacao profissional antes do editor e um ambiente de modelacao para trabalho tecnico real.</h2>
             </div>
-        </div>
+            <div class="capabilities-grid">
+                <article class="capability-card">
+                    <span class="card-kicker">Modelacao visual</span>
+                    <h3>Construa diagramas com semantica de arquitetura</h3>
+                    <p>Use blocos orientados a servicos, modulos, endpoints, middleware, bases de dados e integracoes externas.</p>
+                </article>
+                <article class="capability-card">
+                    <span class="card-kicker">Organizacao por paginas</span>
+                    <h3>Separe contextos sem perder consistencia</h3>
+                    <p>Crie vistas por dominio, fase do produto, ambiente ou fluxo operacional dentro da mesma sessao.</p>
+                </article>
+                <article class="capability-card">
+                    <span class="card-kicker">Edicao operacional</span>
+                    <h3>Atualize propriedades, cores, formato e camadas</h3>
+                    <p>Refine elementos no painel lateral e mantenha o desenho alinhado com a realidade tecnica.</p>
+                </article>
+                <article class="capability-card">
+                    <span class="card-kicker">Portabilidade</span>
+                    <h3>Importe e exporte a arquitetura em JSON</h3>
+                    <p>Leve o estado do sistema entre sessoes, partilhe snapshots e monte bases de referencia.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="container workflow-section" id="workflow">
+            <div class="section-heading">
+                <span class="eyebrow">Fluxo recomendado</span>
+                <h2>Da apresentacao executiva para o editor tecnico sem friccao.</h2>
+            </div>
+            <div class="workflow-grid">
+                <article class="workflow-step">
+                    <span class="step-index">01</span>
+                    <h3>Introduza o sistema</h3>
+                    <p>A landing page posiciona o produto e prepara a conversa com contexto claro antes da edicao.</p>
+                </article>
+                <article class="workflow-step">
+                    <span class="step-index">02</span>
+                    <h3>Abra o editor</h3>
+                    <p>Entre no canvas quando a conversa sair da apresentacao e entrar em desenho, revisao ou planeamento.</p>
+                </article>
+                <article class="workflow-step">
+                    <span class="step-index">03</span>
+                    <h3>Modele e alinhe</h3>
+                    <p>Organize componentes, conexoes e camadas para suportar decisoes tecnicas e comunicacao entre equipas.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="container cta-section">
+            <div class="cta-card">
+                <div>
+                    <span class="eyebrow">Pronto para usar</span>
+                    <h2>Comece pela narrativa do sistema e avance para o desenho detalhado no mesmo fluxo.</h2>
+                </div>
+                <button class="btn btn-primary btn-large" id="ctaLaunchBtn" type="button">Abrir o System Flow Designer</button>
+            </div>
+        </section>
     </main>
 
+    <section class="app-shell" aria-label="Editor do sistema">
+        <div class="canvas-container active" id="flowchartView">
+            <canvas id="journeyCanvas"></canvas>
+        </div>
 
-<!-- Modal de confirmação SFD -->
-<div id="confirmModal" class="sfd-modal-overlay">
-  <div class="sfd-modal-box">
-    <p>Esta ação removerá todos os blocos e conexões do canvas.</p>
-    <div class="sfd-modal-actions">
-      <button class="btn btn-secondary" id="cancelConfirm">Cancelar</button>
-      <button class="btn btn-danger" id="confirmYes">Sim, limpar</button>
-    </div>
-  </div>
-</div>
+        <div class="floating-toolbar" id="floatingToolbar">
+            <div class="toolbar-item" data-type="service" data-shape="rectangle" draggable="true">
+                <div class="toolbar-icon" style="background: #f59e0b;">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <div class="toolbar-label">Service</div>
+            </div>
+            <div class="toolbar-item" data-type="module" data-shape="rectangle" draggable="true">
+                <div class="toolbar-icon" style="background: #10b981;">
+                    <i class="fas fa-puzzle-piece"></i>
+                </div>
+                <div class="toolbar-label">Module</div>
+            </div>
+            <div class="toolbar-item" data-type="endpoint" data-shape="rectangle" draggable="true">
+                <div class="toolbar-icon" style="background: #3b82f6;">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="toolbar-label">Endpoint</div>
+            </div>
+            <div class="toolbar-item" data-type="middleware" data-shape="rectangle" draggable="true">
+                <div class="toolbar-icon" style="background: #8b5cf6;">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="toolbar-label">Middleware</div>
+            </div>
+            <div class="toolbar-item" data-type="repository" data-shape="rectangle" draggable="true">
+                <div class="toolbar-icon" style="background: #ef4444;">
+                    <i class="fas fa-database"></i>
+                </div>
+                <div class="toolbar-label">Repository</div>
+            </div>
+            <div class="toolbar-item" data-type="database" data-shape="circle" draggable="true">
+                <div class="toolbar-icon" style="background: #06b6d4;">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div class="toolbar-label">Database</div>
+            </div>
+            <div class="toolbar-item" data-type="external" data-shape="diamond" draggable="true">
+                <div class="toolbar-icon" style="background: #ec4899;">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <div class="toolbar-label">External</div>
+            </div>
+            <div class="toolbar-item" data-type="layer" data-shape="rectangle" draggable="true">
+                <div class="toolbar-icon" style="background: #2563eb;">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div class="toolbar-label">Layer</div>
+            </div>
+        </div>
 
+        <div class="right-sidebar" id="rightSidebar">
+            <div class="panel" id="propertiesPanel">
+                <div class="panel-header">
+                    <span>Propriedades</span>
+                    <span class="panel-toggle">▼</span>
+                </div>
+                <div class="panel-content" id="propertiesContent">
+                    <div id="noSelection" class="panel-empty">Selecione um bloco para editar suas propriedades</div>
+                    <div id="propertiesForm" style="display: none;">
+                        <div class="property-group">
+                            <label class="property-label" for="propTitle">Nome</label>
+                            <input type="text" class="property-input" id="propTitle">
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label" for="propDescription">Descricao</label>
+                            <textarea class="property-input" id="propDescription" rows="3"></textarea>
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label" for="propIcon">Icone da Tecnologia</label>
+                            <input type="text" class="property-input" id="propIcon" placeholder="URL da imagem">
+                            <small class="property-help-text">Cole URL de badge shields.io ou qualquer URL de imagem</small>
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label" for="propType">Tipo</label>
+                            <select class="property-input" id="propType">
+                                <option value="service">Service</option>
+                                <option value="module">Module</option>
+                                <option value="endpoint">Endpoint</option>
+                                <option value="middleware">Middleware</option>
+                                <option value="repository">Repository</option>
+                                <option value="database">Database</option>
+                                <option value="external">External</option>
+                                <option value="layer">Layer</option>
+                            </select>
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label" for="propShape">Formato</label>
+                            <select class="property-input" id="propShape">
+                                <option value="rectangle">Retangulo</option>
+                                <option value="circle">Circulo</option>
+                                <option value="triangle">Triangulo</option>
+                                <option value="diamond">Losango</option>
+                            </select>
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label" for="propColor">Cor</label>
+                            <div class="color-picker-wrapper">
+                                <div class="color-preview" id="propColorPreview"></div>
+                                <input type="color" class="property-input" id="propColor">
+                            </div>
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label">Posicao</label>
+                            <div class="property-row">
+                                <input type="number" class="property-input" id="propX" placeholder="X">
+                                <input type="number" class="property-input" id="propY" placeholder="Y">
+                            </div>
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label">Tamanho</label>
+                            <div class="property-row">
+                                <input type="number" class="property-input" id="propWidth" placeholder="Largura">
+                                <input type="number" class="property-input" id="propHeight" placeholder="Altura">
+                            </div>
+                        </div>
+                        <div class="property-group">
+                            <label class="property-label" for="propLocked">Estado</label>
+                            <select class="property-input" id="propLocked">
+                                <option value="false">Escrita</option>
+                                <option value="true">Somente Leitura</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="panel" id="layersPanel">
+                <div class="panel-header">
+                    <span>Camadas</span>
+                    <span class="panel-toggle">▼</span>
+                </div>
+                <div class="panel-content" id="layersContent"></div>
+            </div>
+        </div>
 
+        <div class="modal" id="editModal">
+            <div class="modal-content">
+                <h3 class="modal-header">Editar Bloco de Arquitetura</h3>
+                <div class="form-group">
+                    <label class="form-label">Nome do Componente</label>
+                    <input type="text" class="form-input" id="editTitle" placeholder="Ex: Auth Service, API Gateway">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipo de Componente</label>
+                    <select class="form-input" id="editNodeType">
+                        <option value="service">Servico</option>
+                        <option value="module">Modulo</option>
+                        <option value="endpoint">Endpoint</option>
+                        <option value="middleware">Middleware</option>
+                        <option value="repository">Repository</option>
+                        <option value="database">Database</option>
+                        <option value="external">Servico Externo</option>
+                        <option value="layer">Camada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Formato do Bloco</label>
+                    <select class="form-input" id="editNodeShape">
+                        <option value="rectangle">Retangulo</option>
+                        <option value="circle">Circulo</option>
+                        <option value="triangle">Triangulo</option>
+                        <option value="diamond">Losango</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descricao</label>
+                    <textarea class="form-input form-textarea" id="editDescription" placeholder="Descricao detalhada do componente"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Responsabilidades (separadas por virgula)</label>
+                    <textarea class="form-input form-textarea" id="editResponsibilities" placeholder="Ex: Auth, Validacao, Logging"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Metadados (JSON)</label>
+                    <textarea class="form-input form-textarea" id="editMetadata" placeholder='{"key": "value"}'></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn" id="deleteNode" type="button"><i class='bx bx-trash'></i> Remover</button>
+                    <button class="btn" id="cancelEdit" type="button">Cancelar</button>
+                    <button class="btn btn-primary" id="saveEdit" type="button">Salvar</button>
+                </div>
+            </div>
+        </div>
 
-    <footer>
+        <div class="modal" id="addNodeModal">
+            <div class="modal-content">
+                <h3 class="modal-header">Adicionar Novo Bloco de Arquitetura</h3>
+                <div class="form-group">
+                    <label class="form-label">Nome do Componente</label>
+                    <input type="text" class="form-input" id="addNodeTitle" placeholder="Ex: User Service, Middleware Layer">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipo de Componente</label>
+                    <select class="form-input" id="addNodeType">
+                        <option value="service">Servico</option>
+                        <option value="module">Modulo</option>
+                        <option value="endpoint">Endpoint</option>
+                        <option value="middleware">Middleware</option>
+                        <option value="repository">Repository</option>
+                        <option value="database">Database</option>
+                        <option value="external">Servico Externo</option>
+                        <option value="layer">Camada</option>
+                        <option value="custom">Tipo Personalizado...</option>
+                    </select>
+                </div>
+                <div class="form-group" id="customTypeGroup" style="display: none;">
+                    <label class="form-label">Nome do Tipo Personalizado</label>
+                    <input type="text" class="form-input" id="customTypeName" placeholder="Ex: Cache, Queue, API">
+                </div>
+                <div class="form-group" id="customTypeColorGroup" style="display: none;">
+                    <label class="form-label">Cor do Tipo</label>
+                    <input type="color" class="form-input" id="customTypeColor" value="#3b82f6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Formato do Bloco</label>
+                    <select class="form-input" id="addNodeShape">
+                        <option value="rectangle">Retangulo</option>
+                        <option value="circle">Circulo</option>
+                        <option value="triangle">Triangulo</option>
+                        <option value="diamond">Losango</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descricao</label>
+                    <textarea class="form-input form-textarea" id="addNodeDescription" placeholder="Descricao do componente e sua funcao"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Responsabilidades (separadas por virgula)</label>
+                    <textarea class="form-input form-textarea" id="addNodeResponsibilities" placeholder="Ex: Autenticacao, Autorizacao, Rate Limiting"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Metadados (JSON Opcional)</label>
+                    <textarea class="form-input form-textarea" id="addNodeMetadata" placeholder='{"tecnologia": "Node.js", "porta": 3000}'></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn" id="cancelAddNode" type="button">Cancelar</button>
+                    <button class="btn btn-primary" id="saveAddNode" type="button">Adicionar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="context-menu" id="contextMenu"></div>
+
+        <div id="confirmModal" class="sfd-modal-overlay">
+            <div class="sfd-modal-box">
+                <p>Esta acao removera todos os blocos e conexoes do canvas.</p>
+                <div class="sfd-modal-actions">
+                    <button class="btn btn-secondary" id="cancelConfirm" type="button">Cancelar</button>
+                    <button class="btn btn-danger" id="confirmYes" type="button">Sim, limpar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="landing-footer">
         <div class="container">
             <div class="footer-content">
-                <p style="font-size: 14px;">
-                    © 2026 todos os direitos system flow designer.
-                </p>
+                <p style="font-size: 14px;">© 2026 System Flow Designer. Plataforma de apresentacao e modelacao de sistemas.</p>
             </div>
         </div>
     </footer>
 
     <script src="scripts/main.js" defer></script>
-
 </body>
 </html>

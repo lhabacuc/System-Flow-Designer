@@ -103,7 +103,7 @@
         .right-sidebar {
             position: fixed;
             right: 0;
-            top: 60px;
+            top: 72px;
             bottom: 0;
             width: 320px;
             background: var(--color-bg);
@@ -140,4 +140,24 @@
 
         .panel.collapsed .panel-content {
             display: none;
+        }
+
+        @media (max-width: 980px) {
+            .right-sidebar {
+                top: 118px;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .floating-toolbar {
+                left: 16px;
+                right: 16px;
+                transform: none;
+                justify-content: flex-start;
+                overflow-x: auto;
+            }
+
+            .right-sidebar {
+                display: none;
+            }
         }

@@ -1,22 +1,38 @@
 
 const themeToggle = document.getElementById('themeToggle');
+const themeToggleApp = document.getElementById('themeToggleApp');
 const themeIcon = document.getElementById('themeIcon');
+const launchButtons = [
+    document.getElementById('launchSystemBtn'),
+    document.getElementById('heroLaunchBtn'),
+    document.getElementById('ctaLaunchBtn')
+].filter(Boolean);
+const backToLandingBtn = document.getElementById('backToLandingBtn');
 const body = document.body;
+
+function syncThemeButtons(isDark) {
+    themeIcon.innerHTML = isDark
+        ? "<i class='bx bx-sun'></i>"
+        : "<i class='bx bx-moon'></i>";
+
+    if (themeToggleApp) {
+        themeToggleApp.innerHTML = isDark
+            ? "<i class='bx bx-sun'></i> Tema"
+            : "<i class='bx bx-moon'></i> Tema";
+    }
+}
 
 // Check for saved theme preference or default to light mode
 const currentTheme = localStorage.getItem('theme') || 'light';
 if (currentTheme === 'dark') {
     body.classList.add('dark-mode');
-    themeIcon.innerHTML = "<i class='bx bx-sun'></i>";
 }
+syncThemeButtons(body.classList.contains('dark-mode'));
 
-themeToggle.addEventListener('click', () => {
+function toggleTheme() {
     body.classList.toggle('dark-mode');
     const isDark = body.classList.contains('dark-mode');
-
-    themeIcon.innerHTML = isDark
-        ? "<i class='bx bx-sun'></i>"
-        : "<i class='bx bx-moon'></i>";
+    syncThemeButtons(isDark);
 
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
 
@@ -24,7 +40,33 @@ themeToggle.addEventListener('click', () => {
     if (instance) {
         instance.draw();
     }
+}
+
+themeToggle?.addEventListener('click', toggleTheme);
+themeToggleApp?.addEventListener('click', toggleTheme);
+
+function openSystemExperience() {
+    body.classList.add('app-active');
+
+    if (!FlowchartManager.getInstance()) {
+        flowchart = FlowchartManager.init();
+    } else {
+        const instance = FlowchartManager.getInstance();
+        instance.setupCanvas();
+        instance.draw();
+    }
+}
+
+function returnToLanding() {
+    body.classList.remove('app-active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+launchButtons.forEach((button) => {
+    button.addEventListener('click', openSystemExperience);
 });
+
+backToLandingBtn?.addEventListener('click', returnToLanding);
 
 
 // Helper function to close floating menu
@@ -45,6 +87,9 @@ document.getElementById('floatingMenuBtn')?.addEventListener('click', () => {
 document.addEventListener('click', (e) => {
     const menu = document.getElementById('floatingMenu');
     const btn = document.getElementById('floatingMenuBtn');
+    if (!menu || !btn) {
+        return;
+    }
     if (!menu.contains(e.target) && !btn.contains(e.target)) {
         closeFloatingMenu();
     }
@@ -2121,8 +2166,12 @@ const FlowchartManager = {
     }
 };
 
-window.addEventListener('load', () => {
-    flowchart = FlowchartManager.init();
+window.addEventListener('resize', () => {
+    const instance = FlowchartManager.getInstance();
+    if (instance && body.classList.contains('app-active')) {
+        instance.setupCanvas();
+        instance.draw();
+    }
 });
 
 // Reset zoom button
