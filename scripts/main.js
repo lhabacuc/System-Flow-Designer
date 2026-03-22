@@ -117,7 +117,7 @@ if (interactiveLanding) {
                     vec2 centered = gl_PointCoord - vec2(0.5);
                     float distanceToCenter = length(centered);
                     float circle = smoothstep(0.5, 0.18, distanceToCenter);
-                    vec3 color = vec3(0.56, 0.66, 1.0);
+                    vec3 color = vec3(0.73, 0.67, 0.96);
                     gl_FragColor = vec4(color, circle * vAlpha);
                 }
             `
