@@ -9,7 +9,7 @@ const launchButtons = [
 ].filter(Boolean);
 const backToLandingBtn = document.getElementById('backToLandingBtn');
 const interactiveLanding = document.getElementById('interactiveLanding');
-const landingParticleLayer = document.getElementById('landingParticleLayer');
+const landingDotGrid = document.querySelector('.landing-dot-grid');
 const body = document.body;
 
 function syncThemeButtons(isDark) {
@@ -70,8 +70,248 @@ launchButtons.forEach((button) => {
 
 backToLandingBtn?.addEventListener('click', returnToLanding);
 
-if (interactiveLanding && landingParticleLayer) {
-    let lastSparkTime = 0;
+if (interactiveLanding) {
+    let landingScene = null;
+
+    function createLandingDotsScene() {
+        if (!landingDotGrid || typeof THREE === 'undefined') {
+            return null;
+        }
+
+        const renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: false,
+            powerPreference: 'high-performance',
+            preserveDrawingBuffer: false
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+        renderer.domElement.setAttribute('aria-hidden', 'true');
+        renderer.domElement.className = 'landing-dot-canvas';
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera();
+        const geometry = new THREE.BufferGeometry();
+        const material = new THREE.ShaderMaterial({
+            transparent: true,
+            depthTest: false,
+            uniforms: {
+                uPixelRatio: { value: renderer.getPixelRatio() }
+            },
+            vertexShader: `
+                uniform float uPixelRatio;
+                attribute float aSize;
+                attribute float aAlpha;
+                varying float vAlpha;
+
+                void main() {
+                    vAlpha = aAlpha;
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    gl_PointSize = aSize * uPixelRatio;
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
+            fragmentShader: `
+                varying float vAlpha;
+
+                void main() {
+                    vec2 centered = gl_PointCoord - vec2(0.5);
+                    float distanceToCenter = length(centered);
+                    float circle = smoothstep(0.5, 0.18, distanceToCenter);
+                    vec3 color = vec3(0.56, 0.66, 1.0);
+                    gl_FragColor = vec4(color, circle * vAlpha);
+                }
+            `
+        });
+
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+        landingDotGrid.innerHTML = '';
+        landingDotGrid.appendChild(renderer.domElement);
+
+        const state = {
+            renderer,
+            scene,
+            camera,
+            geometry,
+            material,
+            points,
+            positions: new Float32Array(0),
+            basePositions: new Float32Array(0),
+            sizes: new Float32Array(0),
+            alphas: new Float32Array(0),
+            dotCount: 0,
+            baseDotSize: 4,
+            spacing: 18,
+            mouseX: 0,
+            mouseY: 0,
+            mouseActive: false,
+            rafId: null,
+            isAnimating: false
+        };
+
+        function resize() {
+            const width = Math.max(interactiveLanding.clientWidth, 1);
+            const height = Math.max(interactiveLanding.clientHeight, 1);
+            const spacing = width < 768 ? 24 : 18;
+            const baseDotSize = width < 768 ? 3 : 4;
+            const columns = Math.ceil(width / spacing);
+            const rows = Math.ceil(height / spacing);
+            const dotCount = columns * rows;
+
+            state.spacing = spacing;
+            state.baseDotSize = baseDotSize;
+            state.dotCount = dotCount;
+            state.positions = new Float32Array(dotCount * 3);
+            state.basePositions = new Float32Array(dotCount * 3);
+            state.sizes = new Float32Array(dotCount);
+            state.alphas = new Float32Array(dotCount);
+
+            let pointer = 0;
+            for (let row = 0; row < rows; row += 1) {
+                const y = row * spacing + spacing / 2;
+                for (let col = 0; col < columns; col += 1) {
+                    const x = col * spacing + spacing / 2;
+                    const index = pointer * 3;
+                    state.positions[index] = x;
+                    state.positions[index + 1] = height - y;
+                    state.positions[index + 2] = 0;
+                    state.basePositions[index] = x;
+                    state.basePositions[index + 1] = height - y;
+                    state.basePositions[index + 2] = 0;
+                    state.sizes[pointer] = baseDotSize;
+                    state.alphas[pointer] = 0.42;
+                    pointer += 1;
+                }
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(state.positions, 3));
+            geometry.setAttribute('aSize', new THREE.BufferAttribute(state.sizes, 1));
+            geometry.setAttribute('aAlpha', new THREE.BufferAttribute(state.alphas, 1));
+            geometry.computeBoundingSphere();
+
+            camera.left = 0;
+            camera.right = width;
+            camera.top = height;
+            camera.bottom = 0;
+            camera.near = -1;
+            camera.far = 1;
+            camera.position.z = 1;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(width, height, false);
+            material.uniforms.uPixelRatio.value = renderer.getPixelRatio();
+
+            renderFrame();
+        }
+
+        function renderFrame() {
+            renderer.render(scene, camera);
+        }
+
+        function updateDots() {
+            const repelRadius = state.spacing * 5.8;
+            const maxOffset = state.spacing * 1.45;
+            let hasActiveMotion = false;
+
+            for (let i = 0; i < state.dotCount; i += 1) {
+                const index = i * 3;
+                const baseX = state.basePositions[index];
+                const baseY = state.basePositions[index + 1];
+                const currentX = state.positions[index];
+                const currentY = state.positions[index + 1];
+                let targetX = baseX;
+                let targetY = baseY;
+                let targetSize = state.baseDotSize;
+                let targetAlpha = 0.42;
+
+                if (state.mouseActive) {
+                    const dx = baseX - state.mouseX;
+                    const dy = baseY - state.mouseY;
+                    const distance = Math.hypot(dx, dy);
+
+                    if (distance < repelRadius) {
+                        const force = 1 - distance / repelRadius;
+                        const angle = Math.atan2(dy, dx);
+                        targetX = baseX + Math.cos(angle) * maxOffset * force;
+                        targetY = baseY + Math.sin(angle) * maxOffset * force;
+                        targetSize = state.baseDotSize * (1 + force * 2.1);
+                        targetAlpha = 0.42 + force * 0.58;
+                    }
+                }
+
+                const easedX = currentX + (targetX - currentX) * 0.18;
+                const easedY = currentY + (targetY - currentY) * 0.18;
+                const easedSize = state.sizes[i] + (targetSize - state.sizes[i]) * 0.18;
+                const easedAlpha = state.alphas[i] + (targetAlpha - state.alphas[i]) * 0.18;
+
+                state.positions[index] = easedX;
+                state.positions[index + 1] = easedY;
+                state.sizes[i] = easedSize;
+                state.alphas[i] = easedAlpha;
+
+                if (
+                    Math.abs(targetX - easedX) > 0.06 ||
+                    Math.abs(targetY - easedY) > 0.06 ||
+                    Math.abs(targetSize - easedSize) > 0.04 ||
+                    Math.abs(targetAlpha - easedAlpha) > 0.02
+                ) {
+                    hasActiveMotion = true;
+                }
+            }
+
+            geometry.attributes.position.needsUpdate = true;
+            geometry.attributes.aSize.needsUpdate = true;
+            geometry.attributes.aAlpha.needsUpdate = true;
+            renderFrame();
+
+            if (hasActiveMotion || state.mouseActive) {
+                state.rafId = window.requestAnimationFrame(updateDots);
+            } else {
+                state.rafId = null;
+                state.isAnimating = false;
+            }
+        }
+
+        function startAnimation() {
+            if (state.isAnimating) {
+                return;
+            }
+
+            state.isAnimating = true;
+            state.rafId = window.requestAnimationFrame(updateDots);
+        }
+
+        function destroy() {
+            if (state.rafId !== null) {
+                window.cancelAnimationFrame(state.rafId);
+            }
+            geometry.dispose();
+            material.dispose();
+            renderer.dispose();
+            renderer.domElement.remove();
+        }
+
+        resize();
+
+        return {
+            resize,
+            destroy,
+            setMouse(x, y) {
+                state.mouseX = x;
+                state.mouseY = y;
+                state.mouseActive = true;
+                startAnimation();
+            },
+            clearMouse() {
+                state.mouseActive = false;
+                startAnimation();
+            }
+        };
+    }
+
+    if (landingDotGrid && typeof THREE !== 'undefined') {
+        landingScene = createLandingDotsScene();
+    }
 
     interactiveLanding.addEventListener('mousemove', (event) => {
         const rect = interactiveLanding.getBoundingClientRect();
@@ -80,26 +320,18 @@ if (interactiveLanding && landingParticleLayer) {
 
         interactiveLanding.style.setProperty('--mouse-x', `${x}px`);
         interactiveLanding.style.setProperty('--mouse-y', `${y}px`);
+        landingScene?.setMouse(x, interactiveLanding.clientHeight - y);
+    });
 
-        const now = Date.now();
-        if (now - lastSparkTime < 22) {
-            return;
-        }
-        lastSparkTime = now;
+    interactiveLanding.addEventListener('mouseleave', () => {
+        landingScene?.clearMouse();
+    });
 
-        const spark = document.createElement('span');
-        spark.className = 'landing-spark';
-        spark.style.left = `${x}px`;
-        spark.style.top = `${y}px`;
-        spark.style.setProperty('--spark-x', `${(Math.random() - 0.5) * 36}px`);
-        spark.style.setProperty('--spark-y', `${-10 - Math.random() * 28}px`);
-        landingParticleLayer.appendChild(spark);
-
-        window.setTimeout(() => {
-            spark.remove();
-        }, 900);
+    window.addEventListener('resize', () => {
+        landingScene?.resize();
     });
 }
+
 
 
 // Helper function to close floating menu
