@@ -1,36 +1,171 @@
 footer {
-    padding: 0 0 42px;
+    padding: 0;
 }
 
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.landing-footer {
+    position: relative;
+    z-index: 2;
+    padding: 28px 0 42px;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 18%, #000000 100%);
+}
+
+.landing-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(92, 214, 209, 0.24), rgba(0, 0, 0, 0));
+    pointer-events: none;
+}
+
+.landing-footer .footer-content {
+    display: grid;
+    gap: 22px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at top, rgba(65, 168, 181, 0.12), transparent 38%),
+        linear-gradient(180deg, rgba(15, 20, 24, 0.96), rgba(4, 6, 8, 0.98));
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+    color: rgba(227, 236, 242, 0.8);
+}
+
+.landing-footer .footer-brand-block {
+    max-width: 760px;
+}
+
+.landing-footer .footer-kicker {
+    display: inline-flex;
     align-items: center;
-    text-align: center;
-    color: var(--color-text-secondary);
+    min-height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(102, 232, 214, 0.18);
+    background: rgba(65, 182, 171, 0.08);
+    color: #d8fffa;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
-.footer-links {
+.landing-footer .footer-brand-block h2 {
+    margin-top: 14px;
+    max-width: 11ch;
+    color: #f7fbff;
+    font-size: clamp(1.18rem, 2vw, 1.6rem);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.06em;
+    text-wrap: balance;
+}
+
+.landing-footer .footer-brand-block p {
+    margin-top: 8px;
+    max-width: 34ch;
+    font-size: 0.86rem;
+    line-height: 1.75;
+    color: rgba(209, 221, 230, 0.74);
+}
+
+.landing-footer .footer-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.landing-footer .footer-meta-card {
+    padding: 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.landing-footer .footer-meta-card strong {
+    display: block;
+    margin-bottom: 7px;
+    color: #f4fbff;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.landing-footer .footer-meta-card span {
+    color: rgba(210, 223, 233, 0.72);
+    font-size: 0.9rem;
+    line-height: 1.65;
+}
+
+.landing-footer .footer-bottom-row {
     display: flex;
-    gap: 24px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.landing-footer .footer-copyright {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: -0.01em;
+    color: rgba(192, 205, 214, 0.58);
+}
+
+.landing-footer .footer-badges {
+    display: flex;
+    gap: 10px;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
-.footer-link {
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.2s ease;
+.landing-footer .footer-badges span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(230, 238, 244, 0.68);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
 }
 
-.footer-link:hover {
-    color: var(--color-text);
+@media (max-width: 900px) {
+    .landing-footer .footer-meta-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .landing-footer .footer-bottom-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
-@media (max-width: 768px) {
-    footer {
-        padding-bottom: 32px;
+@media (max-width: 640px) {
+    .landing-footer {
+        padding: 22px 0 28px;
+    }
+
+    .landing-footer .footer-content {
+        gap: 18px;
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .landing-footer .footer-brand-block h2 {
+        max-width: none;
+        font-size: clamp(1.02rem, 5.2vw, 1.28rem);
+    }
+
+    .landing-footer .footer-brand-block p,
+    .landing-footer .footer-meta-card span,
+    .landing-footer .footer-copyright {
+        font-size: 0.9rem;
     }
 }

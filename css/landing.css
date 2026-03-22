@@ -6,9 +6,7 @@ html {
     position: relative;
     padding-top: 92px;
     padding-bottom: 96px;
-    background:
-        radial-gradient(circle at 50% 18%, rgba(28, 55, 102, 0.45), transparent 26%),
-        linear-gradient(180deg, #020408 0%, #050812 34%, #07101d 100%);
+    background: #000000;
     color: #f5f7ff;
     overflow: hidden;
     --mouse-x: 50%;
@@ -20,9 +18,26 @@ html {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 15% 60%, rgba(129, 140, 248, 0.1), transparent 20%),
-        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.08), transparent 24%);
+        radial-gradient(circle at 14% 68%, rgba(72, 182, 190, 0.16), transparent 22%),
+        radial-gradient(circle at 82% 18%, rgba(91, 224, 192, 0.14), transparent 20%),
+        radial-gradient(circle at 52% 42%, rgba(32, 86, 130, 0.18), transparent 34%);
+    filter: blur(18px);
+    opacity: 0.95;
     pointer-events: none;
+}
+
+.landing-page::after {
+    content: "";
+    position: absolute;
+    inset: -12% -6% auto;
+    height: 68%;
+    background:
+        linear-gradient(115deg, rgba(0, 0, 0, 0) 18%, rgba(77, 210, 200, 0.12) 38%, rgba(84, 164, 238, 0.16) 52%, rgba(120, 255, 214, 0.08) 66%, rgba(0, 0, 0, 0) 82%),
+        linear-gradient(255deg, rgba(0, 0, 0, 0) 22%, rgba(33, 119, 156, 0.14) 46%, rgba(89, 221, 196, 0.1) 58%, rgba(0, 0, 0, 0) 76%);
+    filter: blur(42px);
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 0;
 }
 
 .landing-page .subtitle,
@@ -65,7 +80,8 @@ html {
     position: absolute;
     inset: 0;
     overflow: hidden;
-    opacity: 0.52;
+    opacity: 0.42;
+    mix-blend-mode: screen;
     pointer-events: none;
     z-index: 0;
 }
@@ -90,29 +106,29 @@ html {
 
 .landing-ribbon-left {
     left: -18vw;
-    top: 18%;
-    transform: rotate(18deg);
-    background: linear-gradient(90deg, rgba(106, 216, 255, 0.96), rgba(201, 128, 255, 0.8), rgba(91, 91, 255, 0.08));
+    top: 14%;
+    transform: rotate(16deg);
+    background: linear-gradient(90deg, rgba(31, 103, 138, 0.08), rgba(74, 226, 203, 0.88), rgba(110, 248, 214, 0.72), rgba(18, 33, 55, 0.02));
     animation-delay: -4s;
 }
 
 .landing-ribbon-right {
     right: -22vw;
-    top: 36%;
-    transform: rotate(-16deg);
-    background: linear-gradient(90deg, rgba(91, 91, 255, 0.05), rgba(215, 130, 255, 0.82), rgba(106, 216, 255, 0.9));
+    top: 34%;
+    transform: rotate(-14deg);
+    background: linear-gradient(90deg, rgba(11, 28, 48, 0.02), rgba(47, 122, 168, 0.54), rgba(80, 218, 201, 0.78), rgba(137, 255, 233, 0.68));
 }
 
 .landing-mouse-glow {
     position: absolute;
-    width: 420px;
-    height: 420px;
+    width: 460px;
+    height: 460px;
     left: var(--mouse-x, 50%);
     top: var(--mouse-y, 18%);
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(102, 203, 255, 0.15), rgba(201, 128, 255, 0.08) 38%, transparent 72%);
-    filter: blur(14px);
+    background: radial-gradient(circle, rgba(94, 250, 224, 0.16), rgba(66, 154, 205, 0.12) 34%, rgba(9, 24, 38, 0) 74%);
+    filter: blur(20px);
     pointer-events: none;
     z-index: 0;
 }
@@ -139,23 +155,32 @@ html {
 }
 
 .hero-copy-centered {
-    width: min(960px, 100%);
+    width: min(920px, 100%);
     text-align: center;
 }
 
 .hero-copy h1 {
-    max-width: 10ch;
-    margin: 20px auto 18px;
-    font-size: clamp(3.8rem, 8vw, 7rem);
-    line-height: 0.95;
-    letter-spacing: -0.07em;
+    max-width: 13ch;
+    margin: 18px auto 14px;
+    font-size: clamp(2.55rem, 5.2vw, 4.35rem);
+    line-height: 0.98;
+    letter-spacing: -0.06em;
     color: #ffffff;
 }
 
+.hero-copy h1 span {
+    display: block;
+}
+
+.hero-copy h1 span + span {
+    margin-top: 0.08em;
+}
+
 .hero-copy .subtitle {
-    max-width: 760px;
-    margin: 0 auto 28px;
-    font-size: 1.35rem;
+    max-width: 620px;
+    margin: 0 auto 22px;
+    font-size: 1rem;
+    line-height: 1.68;
 }
 
 .hero-panel-centered {
@@ -390,7 +415,7 @@ html {
 
     .hero-copy h1 {
         max-width: 12ch;
-        font-size: clamp(3.2rem, 7vw, 5.4rem);
+        font-size: clamp(2.35rem, 5vw, 3.7rem);
     }
 
     .hero-copy .subtitle {
@@ -428,15 +453,15 @@ html {
     }
 
     .hero-copy h1 {
-        margin: 16px auto 14px;
-        font-size: clamp(2.6rem, 11vw, 4.2rem);
+        margin: 12px auto 10px;
+        font-size: clamp(1.95rem, 7.4vw, 2.75rem);
         letter-spacing: -0.06em;
         max-width: none;
     }
 
     .hero-copy .subtitle {
-        margin-bottom: 22px;
-        font-size: 1.02rem;
+        margin-bottom: 16px;
+        font-size: 0.92rem;
         line-height: 1.65;
     }
 
@@ -519,11 +544,11 @@ html {
     }
 
     .hero-copy h1 {
-        font-size: clamp(2.2rem, 12vw, 3.4rem);
+        font-size: clamp(1.7rem, 8.8vw, 2.3rem);
     }
 
     .hero-copy .subtitle {
-        font-size: 0.96rem;
+        font-size: 0.84rem;
     }
 
     .prompt-card,
