@@ -133,6 +133,15 @@ html {
     z-index: 0;
 }
 
+@keyframes heroPanelNeonOrbit {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @keyframes ribbonFloat {
     0% {
         transform: translate3d(0, 0, 0) rotate(var(--ribbon-rotate, 0deg)) scale(1);
@@ -196,13 +205,64 @@ html {
     box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
 }
 
-.prompt-card {
-    padding: 22px;
-    border-radius: 28px;
+.hero-panel-card {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.hero-panel-card::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: conic-gradient(
+        from 0deg,
+        rgba(255, 255, 255, 0) 0deg,
+        rgba(147, 113, 216, 0.0) 38deg,
+        rgba(214, 200, 255, 0.95) 96deg,
+        rgba(110, 37, 255, 0.82) 136deg,
+        rgba(255, 255, 255, 0) 180deg,
+        rgba(255, 255, 255, 0) 360deg
+    );
+    opacity: 0;
+    filter: blur(10px);
+    transform: rotate(0deg);
+    transition: opacity 0.24s ease;
+    z-index: -2;
+}
+
+.hero-panel-card::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: calc(28px - 1px);
     background:
         linear-gradient(180deg, rgba(18, 22, 34, 0.92), rgba(20, 24, 40, 0.88)),
         rgba(8, 10, 18, 0.82);
+    z-index: -1;
+}
+
+.hero-panel-card:hover::before {
+    opacity: 1;
+    animation: heroPanelNeonOrbit 2.8s linear infinite;
+}
+
+.hero-panel-card:hover {
+    border-color: rgba(190, 170, 255, 0.32);
+    box-shadow: 0 28px 72px rgba(0, 0, 0, 0.34), 0 0 26px rgba(147, 113, 216, 0.18);
+}
+
+.prompt-card {
+    padding: 22px;
+    border-radius: 28px;
+    background: transparent;
     backdrop-filter: blur(18px);
+}
+
+.prompt-card > * {
+    position: relative;
+    z-index: 1;
 }
 
 .prompt-head {
